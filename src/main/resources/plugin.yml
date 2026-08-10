@@ -1,0 +1,27 @@
+name: HavocRTP
+version: '${project.version}'
+main: me.purplertp.plugin.PurpleRTP
+api-version: '1.21'
+description: 'Havoc RTP plugin for NA. MADE BY AUXXY'
+authors: [NaxzyAuxxy]
+
+commands:
+  rtp:
+    description: Randomly teleport
+    usage: /rtp
+    permission: havocrtp.use
+  rtpadmin:
+    description: Admin commands
+    usage: /rtpadmin <reload|clearcooldown|forcertp|pool>
+    permission: havocrtp.admin
+
+permissions:
+  havocrtp.use:
+    description: Allows use of /rtp
+    default: true
+  havocrtp.admin:
+    description: Allows use of /rtpadmin
+    default: op
+  havocrtp.bypass.cooldown:
+    description: Bypass RTP cooldown
+    default: op
