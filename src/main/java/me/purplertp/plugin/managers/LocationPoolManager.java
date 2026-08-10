@@ -19,8 +19,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class LocationPoolManager {
     private final PurpleRTP plugin;
-    private final Map<String, ConcurrentLinkedQueue<Location>> pools = new ConcurrentHashMap<String, ConcurrentLinkedQueue<Location>>();
-    private final Map<String, AtomicBoolean> filling = new ConcurrentHashMap<String, AtomicBoolean>();
+    private final Map<String, ConcurrentLinkedQueue<Location>> pools = new ConcurrentHashMap<>();
+    private final Map<String, AtomicBoolean> filling = new ConcurrentHashMap<>();
     private BukkitTask refillTask;
 
     public LocationPoolManager(PurpleRTP plugin) {
@@ -36,18 +36,23 @@ public class LocationPoolManager {
             }
             int poolSize = this.plugin.getConfig().getInt("SETTINGS.POOL-SIZE", 20);
             int batchSize = this.plugin.getConfig().getInt("SETTINGS.POOL-FILL-BATCH", 5);
-            Set worldKeys = worldSection.getKeys(false);
+            
+            // Fixed: Explicitly parameterize Set as Set<String>
+            Set<String> worldKeys = worldSection.getKeys(false);
             for (String worldName : worldKeys) {
-                ConcurrentLinkedQueue pool = this.pools.computeIfAbsent(worldName, k -> new ConcurrentLinkedQueue());
+                // Fixed: Parameterize ConcurrentLinkedQueue as ConcurrentLinkedQueue<Location>
+                ConcurrentLinkedQueue<Location> pool = this.pools.computeIfAbsent(worldName, k -> new ConcurrentLinkedQueue<>());
                 AtomicBoolean isFilling = this.filling.computeIfAbsent(worldName, k -> new AtomicBoolean(false));
                 if (pool.size() >= poolSize || !isFilling.compareAndSet(false, true)) continue;
+                
                 String path = "WORLD-SETTINGS." + worldName + ".";
                 int maxRadius = this.plugin.getConfig().getInt(path + "MAX-RADIUS", 5000);
                 int minRadius = this.plugin.getConfig().getInt(path + "MIN-RADIUS", 500);
                 int centerX = this.plugin.getConfig().getInt(path + "CENTER-X", 0);
                 int centerZ = this.plugin.getConfig().getInt(path + "CENTER-Z", 0);
                 int maxAttempts = this.plugin.getConfig().getInt("SETTINGS.MAX-ATTEMPTS", 25);
-                World world = Bukkit.getWorld((String)worldName);
+                
+                World world = Bukkit.getWorld(worldName);
                 if (world == null) {
                     isFilling.set(false);
                     continue;
@@ -119,4 +124,3 @@ public class LocationPoolManager {
         return null;
     }
 }
-
