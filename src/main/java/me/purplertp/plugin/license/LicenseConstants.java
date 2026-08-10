@@ -24,10 +24,10 @@ public final class LicenseConstants {
     public static final String PRODUCT = "havocrtp";
 
     /** Base URL of your licensing API, including /api/v1 and no trailing slash. */
-    public static final String API_URL = "https://your-host:25619/api/v1";
+    public static final String API_URL = "http://licenses.havocsmp.club:25619/api/v1";
 
     /** Ed25519 public key (base64 SPKI), copied from your dashboard. */
-    public static final String PUBLIC_KEY = "";
+    public static final String PUBLIC_KEY = "MCowBQYDK2VwAyEA7GhqWeilDXoLVvM8/NoLNZ7rH+EZYLXcmBo5ZI6Pj5c=";
 
     /** How often to re-check, in minutes. Minimum enforced is 15. */
     public static final long RECHECK_MINUTES = 180L;
