@@ -9,12 +9,12 @@ on:
     # The licensing site has its own workflow, so website-only changes
     # do not trigger a plugin rebuild.
     paths-ignore:
-      - ''
+      - 'website/**' # Replace 'website/**' with your actual website folder name
       - '**.md'
   pull_request:
     branches: [ "main", "master" ]
     paths-ignore:
-      - ''
+      - 'website/**' # Replace 'website/**' with your actual website folder name
       - '**.md'
   workflow_dispatch:
 
